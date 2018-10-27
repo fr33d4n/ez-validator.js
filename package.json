@@ -1,0 +1,43 @@
+{
+  "name": "ez-validator",
+  "version": "1.0.0",
+  "description": "A elegant node validator/sanitizer for complex inputs",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Joan Roca Pla",
+  "license": "MIT",
+  "main": "src/main.js",
+  "scripts": {
+    "test:unit": "nyc mocha --timeout=10000 --exit",
+    "lint": "eslint --fix \"src/**/*.js\" \"test/**/*.js\""
+  },
+  "lint-staged": {
+    "{src,test}/**/*.{js,json}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "validate.js": "^0.12.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-import": "^2.14.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
+    "load-grunt-tasks": "^4.0.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "rewire": "^4.0.1",
+    "sinon": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=8.12.0",
+    "npm": ">=6.4.1"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "check-coverage": true,
+  "per-file": true,
+  "lines": 0,
+  "statements": 0,
+  "functions": 0,
+  "branches": 0,
+  "include": [
+    "src/**/*.js",
+    "lib/**/*.js"
+  ],
+  "reporter": [
+    "text"
+  ],
+  "cache": true,
+  "all": true
+}
