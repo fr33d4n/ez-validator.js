@@ -62,23 +62,22 @@ function createFilm(req, res, next) {
 As shown on the example code just above, you must define the validation rules on a JSON object. This object keys must be named after the expected keys of the input to be validated. In the example, we were validating 3 properties. `name`, `year` and `generes`. Each property has it's own validation schema. The schema MUST be an object as well, and may be empty. Here is a full list of the validation options:
 
 ### required
- * Checks if the specified key is present on the input. 
- * Will only trigger an error if the property is not present (`undefined`). 
- * Null values are valid. 
- * The value of this property must be truthy. I recommend `true` or `1`
+ * Checks if the specified key is present AND not null on the input. 
+ * The value of this property on the taxonomy must be truthy. I recommend `true` or `1`
 
 ### string
  * Checks if the specified key is a string.
- * Will trigger an error if the value is null
+ * Will trigger an error if the input value is null
+ * Will NOT trigger an error if the input value is not present (`undefined`). This use case is covered by the `required` validator.
  * The value of this property must be truthy. If you wanna include restrictions the value must be an object containing those:
 
 Possible restrictions for this validator are:
 
 #### length
- * Its an object with the `min` and `max` properties on it. Must be integers.
- * Both of them are optional.
- * If non of the `min` and `max` properties are present, the restriction will do nothing.
- * Will trigger an error if `min > string.length` or `max < string.length`.  
+ * Its an object with the `min`, `max` and `exactly` properties on it. Must be integers.
+ * All of them are optional.
+ * If non of properties are present, the restriction will do nothing.
+ * Will trigger an error if `min > string.length`, `max < string.length` or `string.length !== exactly`.  
 
 #### pattern
  * Value must be a valid [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp).
