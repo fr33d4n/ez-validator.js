@@ -28,7 +28,9 @@ const taxonomy = {
   },
   year: {
     required: true,
-    integer: {
+    number: {
+      strict: true,
+      integer: true,
       range: { min: 1900 }
     }
   },
@@ -88,16 +90,27 @@ Possible restrictions for this validator are:
  * Checks if the string matches one of the strings on the array
  * Will trigger an error if the string is not on the array
 
-### integer
- * Checks if the specified key is an integer.
+### number
+ * Checks if the specified key is a number. If the `strict` restriction is set, the validator will not coerce strings to numbers, and so, strings that represent numbers (i.e: `'10'`) will throw. 
  * Will trigger an error if the value is null
  * The value of this property must be truthy. If you wanna include restrictions the value must be an object containing those:
 
 #### range
- * TODO
+ * Its an object with the `min`, `max` and `exactly` properties on it. Must be integers.
+ * All of them are optional.
+ * If non of properties are present, the restriction will do nothing.
+ * Will trigger an error if `min > number.length`, `max < number.length` or `number.length !== exactly`.  
 
-### float
- * TODO
+#### isPositive
+ * Checks if the input is a positive number (+= 0)
+
+#### isInteger
+  * Checks if the input is an integer number.
+
+#### oneOf
+ * Value must be an array of numbers. 
+ * Checks if the number matches one of the numbers on the array
+ * Will trigger an error if the number is not on the array
 
 ### array
  * TODO
