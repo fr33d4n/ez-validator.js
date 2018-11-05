@@ -20,6 +20,18 @@ describe('string validator', () => {
       expect(() => val.validate()).not.to.throw();
       expect(() => val.validate('asdf')).not.to.throw();
     });
+
+    it('should return an active validator, which omits unknown restrictions', () => {
+      const taxonomy = {
+        meh: true
+      };
+      const val = validatorFactory(taxonomy);
+      expect(val.priority).to.equal(10);
+      expect(val.validate).to.be.a('function');
+      expect(() => val.validate(12)).to.throw();
+      expect(() => val.validate()).not.to.throw();
+      expect(() => val.validate('asdf')).not.to.throw();
+    });
   });
 
   describe('#restrictions: length', () => {

@@ -56,7 +56,7 @@ function oneOf(array) {
 
 function composeRestrictions(taxonomy, restrictions) {
   const validatorArray = Object.keys(taxonomy).reduce((validatorArray, restriction) => {
-    if (restrictions[restriction] == null) return;
+    if (restrictions[restriction] == null) return validatorArray;
     return [...validatorArray, restrictions[restriction](taxonomy[restriction])];
   }, []);
 
