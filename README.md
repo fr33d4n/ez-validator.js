@@ -1,7 +1,7 @@
 # Ez Validator.JS
 An elegant Node validator/sanitizer for complex and big inputs
 
-[![Build Status](https://travis-ci.org/fr33d4n/ez-validator.js.svg?branch=master)](https://travis-ci.org/fr33d4n/ez-validator.js)
+[![Build Status](https://travis-ci.org/fr33d4n/ez-validator.js.svg?branch=master)](https://travis-ci.org/fr33d4n/ez-validator.js) [![codecov](https://codecov.io/gh/fr33d4n/ez-validator.js/branch/master/graph/badge.svg)](https://codecov.io/gh/fr33d4n/ez-validator.js)
 
 ## Installation
 ```sh
