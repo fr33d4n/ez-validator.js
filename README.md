@@ -1,6 +1,8 @@
 # Ez Validator.JS
 An elegant Node validator/sanitizer for complex and big inputs
 
+[![Build Status](https://travis-ci.org/fr33d4n/ez-validator.js.svg?branch=master)](https://travis-ci.org/fr33d4n/ez-validator.js)
+
 ## Installation
 ```sh
 npm install ez-validator --save
@@ -313,5 +315,68 @@ If you wanna include restrictions the value must be an object containing those:
  ```
 
 ### array
-* Checks if the specified key is an array.
-* 
+ * Checks if the specified key is an array. 
+ * You can combine this validator with other validators to perform nested checks
+
+ ```js
+ const options = {};
+ const taxonomy = {
+   categories: {
+     array: true
+   }
+ }
+
+ const { Validator } = require('ez-validator');
+ const filmValidator = Validator.build({ taxonomy, options });
+
+ filmValidator.validate({ }); // OK
+ filmValidator.validate({ categories: null }); // throws Error
+ filmValidator.validate({ categories: [] }); // OK
+ filmValidator.validate({ categories: [ 'Terror', 12 ] }); // OK
+
+ const nestedTaxonomy = {
+   categories: {
+     array: {
+       string: {
+         length: { min: 3, max: 10 },
+       }
+     }
+   }
+ }
+
+ const strictFilmValidator = Validator.build({ taxonomy: nestedTaxonomy, options });
+
+ strictFilmValidator.validate({ categories: [ ] }); // OK
+ strictFilmValidator.validate({ categories: [ 'a' ] }); // throws Error
+ strictFilmValidator.validate({ categories: [ '12345678901' ] }); // throws Error
+ strictFilmValidator.validate({ categories: [ '123', '1234567890' ] }); // OK
+ ```
+
+You can also include the following restrictions:
+
+#### length
+ * Its an object with the `min`, `max` and `exactly` properties on it. Must be integers.
+ * All of them are optional.
+ * If non of properties are present, the restriction will do nothing.
+ * Will trigger an error if `min > array.length`, `max < array.length` or `array.length !== exactly`.  
+
+ ```js
+ const options = {};
+ const taxonomy = {
+   categories: {
+     array: {
+       length: { min: 1, max: 3 },
+       string: {
+         length: { min: 3, max: 10 },
+       }
+     }
+   }
+ }
+
+ const strictFilmValidator = Validator.build({ taxonomy, options });
+
+ strictFilmValidator.validate({ categories: [ ] }); // throws Error
+ strictFilmValidator.validate({ categories: [ 'Terror', 'Sci-Fi', 'Thriller', 'Anime' ] }); // throws Error
+ strictFilmValidator.validate({ categories: [ 'Terror' ] }); // OK
+ strictFilmValidator.validate({ categories: [ 'a' ] }); // throws Error
+ ```

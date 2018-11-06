@@ -23,6 +23,11 @@ class PropertyValidator {
     try {
       this.valMethods.forEach(m => m.validate(inputValue));
     } catch (e) {
+      if (e instanceof ValidationError) {
+        e.field = this.field;
+        throw e;
+      }
+
       throw new ValidationError(e.message, this.field, inputValue);
     }
   }
