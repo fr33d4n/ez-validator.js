@@ -1,5 +1,5 @@
 {
-  "name": "ez-validator",
+  "name": "ez-validator.js",
   "version": "1.4.0",
   "description": "A elegant node validator/sanitizer for complex inputs",
   "repository": {
@@ -8,6 +8,7 @@
   },
   "author": "Joan Roca Pla",
   "license": "MIT",
+  "keywords": ["validate", "json", "complex", "object", "array", "form", "input"],
   "main": "src/main.js",
   "scripts": {
     "coverage": "npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov",
