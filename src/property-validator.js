@@ -1,12 +1,12 @@
 
 const ValidationError = require('./validation-error');
 
-function generateValidatorMethods(taxonomy, validators) {
+function generateValidatorMethods(taxonomy, validators, options) {
   const valMethods = [];
 
   Object.keys(taxonomy).forEach((prop) => {
     if (!validators[prop]) return;
-    valMethods.push(validators[prop](taxonomy[prop]));
+    valMethods.push(validators[prop](taxonomy[prop], options));
   });
 
   valMethods.sort((a, b) => a.priority >= b.priority);
@@ -14,9 +14,11 @@ function generateValidatorMethods(taxonomy, validators) {
 }
 
 class PropertyValidator {
-  constructor({ field, taxonomy, validators }) {
+  constructor({
+    field, taxonomy, validators, options
+  }) {
     this.field = field;
-    this.valMethods = generateValidatorMethods(taxonomy, validators);
+    this.valMethods = generateValidatorMethods(taxonomy, validators, options);
   }
 
   validate(inputValue) {
@@ -32,8 +34,12 @@ class PropertyValidator {
     }
   }
 
-  static build({ field, taxonomy, validators }) {
-    return new PropertyValidator({ field, taxonomy, validators });
+  static build({
+    field, taxonomy, validators, options
+  }) {
+    return new PropertyValidator({
+      field, taxonomy, validators, options
+    });
   }
 }
 

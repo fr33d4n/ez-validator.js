@@ -14,13 +14,15 @@ function getCurrentValidators() {
   }, {});
 }
 
-function generateValidatorSchema(taxonomy) {
+function generateValidatorSchema(taxonomy, options) {
   const validators = getCurrentValidators();
 
   return Object
     .keys(taxonomy)
     .reduce((schema, key) => {
-      const val = PropertyValidator.build({ field: key, taxonomy: taxonomy[key], validators });
+      const val = PropertyValidator.build({
+        field: key, taxonomy: taxonomy[key], validators, options
+      });
       return { ...schema, [key]: val };
     }, {});
 }
@@ -28,7 +30,7 @@ function generateValidatorSchema(taxonomy) {
 class Validator {
   constructor({ taxonomy = {}, options = {} } = {}) {
     this.failFast = !!options.failFast;
-    this.schema = generateValidatorSchema(taxonomy);
+    this.schema = generateValidatorSchema(taxonomy, options);
     this.requiredProperties = Object
       .entries(this.schema)
       .filter(p => !!p[1].required)

@@ -418,3 +418,45 @@ You can also include the following restrictions:
  strictFilmValidator.validate({ categories: [ 'Terror' ] }); // OK
  strictFilmValidator.validate({ categories: [ 'a' ] }); // throws Error
  ```
+
+### object
+ * Performs a nested validationof the JSON object
+ * You can have as many nested objects as you want
+
+```js
+const options = {};
+const taxonomy = {
+  profile: {
+    object: {
+      name: {
+        requiredIf: {
+          key: 'profile',
+          condition: '==',
+          value: true,
+        },
+        string: true,
+      },
+      age: {
+        number: {
+          isInteger: true,
+          isPositive: true,
+        },
+      },
+    }
+  },
+  skills: {
+    array: {
+      string: true
+    }
+  }
+}
+
+const { Validator } = require('ez-validator');
+const filmValidator = Validator.build({ taxonomy, options });
+
+filmValidator.validate({ }); // OK
+filmValidator.validate({ profile: { age: 23 } }); // throws Error
+filmValidator.validate({ profile: { name: 'john', age: 23 } }); // OK
+filmValidator.validate({ profile: { name: 'john' } }); // OK
+filmValidator.validate({ profile: { name: 'john', age: 3.14 } }); // throws Error
+```
