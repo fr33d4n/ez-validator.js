@@ -51,7 +51,7 @@ class Validator {
 
       /* This will automatically throw if there is a validation error */
       /* TODO: Implement a non failFast alternative */
-      this.schema[key].validate(input[key]);
+      this.schema[key].validate(input[key], input);
     });
   }
 

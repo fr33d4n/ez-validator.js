@@ -18,6 +18,7 @@ describe('required validator', () => {
       expect(val.validate).to.be.a('function');
       expect(() => val.validate()).to.throw();
       expect(() => val.validate(null)).to.throw();
+      expect(() => val.validate('john')).not.to.throw();
     });
   });
 });

@@ -74,11 +74,13 @@ describe('Validator class', () => {
     it('should throw as the input is null', () => {
       const input = null;
       expect(() => validator.validate(input)).to.throw(ValidationError);
+      sandbox.verify();
     });
 
     it('should throw as the input not a map', () => {
       const input = [];
       expect(() => validator.validate(input)).to.throw(ValidationError);
+      sandbox.verify();
     });
 
     it('should throw as the input has not all required fields', () => {
@@ -87,6 +89,7 @@ describe('Validator class', () => {
         age: 23
       };
       expect(() => validator.validate(input)).to.throw(ValidationError);
+      sandbox.verify();
     });
 
     it('should properties not on the taxonomy, and call validate for the ones that are in', () => {
@@ -96,6 +99,21 @@ describe('Validator class', () => {
       };
 
       expect(() => validator.validate(input)).not.to.throw(ValidationError);
+      sandbox.verify();
+    });
+
+    it('should call individual property validators with the correct args', () => {
+      const input = {
+        name: 'john',
+        surname: 'smith'
+      };
+
+      const mockPropertyValidatorName = sandbox.mock(propertyValidatorName);
+      mockPropertyValidatorName.expects('validate').once().withArgs('john', match({ name: 'john', surname: 'smith' })).returns();
+      const mockPropertyValidatorSurname = sandbox.mock(propertyValidatorSurname);
+      mockPropertyValidatorSurname.expects('validate').once().withArgs('smith', match({ name: 'john', surname: 'smith' })).returns();
+      validator.validate(input);
+      sandbox.verify();
     });
   });
 });

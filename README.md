@@ -86,6 +86,44 @@ filmValidator.validate({ name: null }); // throws Error
 filmValidator.validate({ name: 'john' }); // OK
 ```
 
+### requiredIf
+ * Checks if the specified key is present AND not null on the input AND a certain condition is true. 
+ * The value of the validator must be an object with the mandatory properties `key`, `value` and `condition`.
+ * `key` should be the name of another attribute of the taxonomy
+ * `condition` is the comparison operator which will be used to test the input `key` against the value you specify
+ * `condition` must be one of the following ones: ['===', '!==', '==', '!=', '>', '<', '>=', '<=', 'oneOf', 'notOneOf']
+ * TODO: Multiple requiredIf conditions, more comparison operators
+
+```js
+const options = {};
+const taxonomy = {
+  gender: {
+    string: {
+      oneOf: ['male', 'female']
+    }
+  },
+  age: {
+    requiredIf: {
+      key: 'gender',
+      condition: '==='
+      value: 'male',
+    },
+    number: {
+      range: { min: 18, max: 99 }
+    }
+  }
+}
+
+const { Validator } = require('ez-validator');
+const filmValidator = Validator.build({ taxonomy, options });
+
+filmValidator.validate({ }); // OK
+filmValidator.validate({ age: 30 }); // OK
+filmValidator.validate({ gender: 'male', age: 30 }); // OK
+filmValidator.validate({ gender: 'male' }); // throws Error
+filmValidator.validate({ gender: 'female' }); // OK
+```
+
 ### string
  * Checks if the specified key is a string.
  * Will trigger an error if the input value is null
