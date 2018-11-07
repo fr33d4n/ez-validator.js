@@ -5,7 +5,7 @@ An elegant Node validator/sanitizer for complex and big inputs
 
 ## Installation
 ```sh
-npm install ez-validator --save
+npm install ez-validator.js --save
 ```
 
 ## Basic usage
