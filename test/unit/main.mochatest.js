@@ -1,8 +1,7 @@
-
 const { expect } = require('chai');
 
-const { Validator } = require('../src/main');
-const ValidatorClass = require('../src/validator');
+const { Validator } = require('../../src/main');
+const ValidatorClass = require('../../src/validator');
 
 describe('main', () => {
   it('should load and export the Validator class', () => {

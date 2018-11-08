@@ -12,7 +12,8 @@
   "main": "src/main.js",
   "scripts": {
     "coverage": "npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "test": "nyc mocha --timeout=10000 --exit \"test/**/*.js\"",
+    "test": "nyc mocha --timeout=10000 --exit \"test/unit/**/*.js\"",
+    "functional": "mocha --timeout=10000 --exit \"test/functional/**/*.js\"",
     "lint": "eslint --fix \"src/**/*.js\" \"test/**/*.js\""
   },
   "lint-staged": {

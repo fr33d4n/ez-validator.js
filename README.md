@@ -460,3 +460,4 @@ filmValidator.validate({ profile: { name: 'john', age: 23 } }); // OK
 filmValidator.validate({ profile: { name: 'john' } }); // OK
 filmValidator.validate({ profile: { name: 'john', age: 3.14 } }); // throws Error
 ```
+

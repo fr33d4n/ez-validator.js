@@ -1,9 +1,8 @@
-
 const { expect } = require('chai');
 const sandbox = require('sinon');
 
-const PropertyValidator = require('../src/property-validator');
-const ValidationError = require('../src/validation-error');
+const PropertyValidator = require('../../src/property-validator');
+const ValidationError = require('../../src/validation-error');
 
 describe('PropertyValidator class', () => {
   afterEach(() => sandbox.restore());

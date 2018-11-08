@@ -1,12 +1,11 @@
-
 const { expect } = require('chai');
 const sandbox = require('sinon');
 
 const { match } = sandbox;
 
-const Validator = require('../src/validator');
-const PropertyValidator = require('../src/property-validator');
-const ValidationError = require('../src/validation-error');
+const Validator = require('../../src/validator');
+const PropertyValidator = require('../../src/property-validator');
+const ValidationError = require('../../src/validation-error');
 
 const taxonomy = {
   name: {

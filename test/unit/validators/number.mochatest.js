@@ -1,7 +1,6 @@
-
 const { expect } = require('chai');
 
-const validatorFactory = require('../../src/validators/number');
+const validatorFactory = require('../../../src/validators/number');
 
 describe('number validator', () => {
   describe('#constructor', () => {
