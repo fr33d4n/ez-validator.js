@@ -1,6 +1,6 @@
 {
   "name": "ez-validator.js",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A elegant node validator/sanitizer for complex inputs",
   "repository": {
     "type": "git",
