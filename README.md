@@ -3,6 +3,19 @@ An elegant Node validator/sanitizer for complex and big inputs
 
 [![Build Status](https://travis-ci.org/fr33d4n/ez-validator.js.svg?branch=master)](https://travis-ci.org/fr33d4n/ez-validator.js) [![codecov](https://codecov.io/gh/fr33d4n/ez-validator.js/branch/master/graph/badge.svg)](https://codecov.io/gh/fr33d4n/ez-validator.js)
 
+## Index
+
+ * ### [Installation](#installation)
+ * ### [Basic usage](#basic-usage)
+ * ### [Validators](#validators)
+   * #### [required](#required)
+   * #### [requiredIf](#requiredif)
+   * #### [string](#string)
+   * #### [number](#number)
+   * #### [array](#array)
+   * #### [object](#object)
+ * ### [Santitizer](#sanitizer)
+
 ## Installation
 ```sh
 npm install ez-validator.js --save
@@ -398,26 +411,26 @@ You can also include the following restrictions:
  * If non of properties are present, the restriction will do nothing.
  * Will trigger an error if `min > array.length`, `max < array.length` or `array.length !== exactly`.  
 
- ```js
- const options = {};
- const taxonomy = {
-   categories: {
-     array: {
-       length: { min: 1, max: 3 },
-       string: {
-         length: { min: 3, max: 10 },
-       }
-     }
-   }
- }
+```js
+const options = {};
+const taxonomy = {
+  categories: {
+    array: {
+      length: { min: 1, max: 3 },
+      string: {
+        length: { min: 3, max: 10 },
+      }
+    }
+  }
+}
 
- const strictFilmValidator = Validator.build({ taxonomy, options });
+const strictFilmValidator = Validator.build({ taxonomy, options });
 
- strictFilmValidator.validate({ categories: [ ] }); // throws Error
- strictFilmValidator.validate({ categories: [ 'Terror', 'Sci-Fi', 'Thriller', 'Anime' ] }); // throws Error
- strictFilmValidator.validate({ categories: [ 'Terror' ] }); // OK
- strictFilmValidator.validate({ categories: [ 'a' ] }); // throws Error
- ```
+strictFilmValidator.validate({ categories: [ ] }); // throws Error
+strictFilmValidator.validate({ categories: [ 'Terror', 'Sci-Fi', 'Thriller', 'Anime' ] }); // throws Error
+strictFilmValidator.validate({ categories: [ 'Terror' ] }); // OK
+strictFilmValidator.validate({ categories: [ 'a' ] }); // throws Error
+```
 
 ### object
  * Performs a nested validationof the JSON object
@@ -461,3 +474,32 @@ filmValidator.validate({ profile: { name: 'john' } }); // OK
 filmValidator.validate({ profile: { name: 'john', age: 3.14 } }); // throws Error
 ```
 
+### Sanitizer
+
+This library also comes with a sanitizer. You can reuse the taxonomy of the validator to sanitize input data. For instance:
+
+```js
+const { Sanitizer } = require('ez-validator.js');
+
+const taxonomy = {
+  name: {
+    string: true
+  },
+  age: {
+    number: {
+      range: { min: 18 }
+    }
+  },
+};
+
+const input = {
+  name: 'meh',
+  age: '25',
+  newPassword: 'whatever',
+};
+
+const sanitizedInput = Sanitizer.build({ taxonomy }).sanitize(input); 
+console.log(sanitizedInput); /* { name: 'meh', age: 25 } */ 
+```
+
+When the sanitize is called, it tries to convert types (whatever to string, string to number, etc..) and remove properties on the input that do not exist on the taxonomy. Because of this **it's very recommended to run the validator before the sanitizer**.
